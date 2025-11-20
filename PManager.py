@@ -212,7 +212,7 @@ def secretMenu():
 def optionMenu(exit,debug):
     print("_______________________")
     print()
-    print(" ELV Password Manager")
+    print(" ELH Password Manager")
     print("_______________________")
     print("-----------------------")
     print("1: Store Log In Details")
