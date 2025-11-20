@@ -40,10 +40,10 @@ def textToMemory(debug):
     debugOption(line,debug)
     return line
 # Un-used feature for future implimentation
-def textEditer(x,text):
+def textEditer(x,text,debug):
     with open('text.txt', 'r') as file:
         line = file.readlines()
-    print(line)
+    debugOption(line,debug)
     line[x-1] = text + '\n'
     with open('text.txt', 'w') as file:
         file.writelines(line) 
@@ -138,6 +138,7 @@ def storeCred():
         print("-----------------------")
         print("Enter 1 to Confirm")
         print("Enter 0 to Retry")
+        print("-----------------------")
         option = input()
         print("-----------------------")
         if option == "1":
@@ -153,7 +154,7 @@ def storeCred():
         print("-----------------------")
         print("  Enter 1 to Confirm")
         print("  Enter 0 to Retry")
-    
+        print("-----------------------")
         option2 = input()
         print("-----------------------")
         if option2 == "1":
@@ -168,6 +169,7 @@ def storeCred():
         print("-----------------------")
         print("  Enter 1 to Confirm")
         print("  Enter 0 to Retry")
+        print("-----------------------")
         option3 = input()
         print("-----------------------")
         if option3 == "1":
@@ -182,16 +184,25 @@ def viewCred(debug):
     text1 = textDecipher(debug)
     printText(text1)
 
-def edit():
+def edit(debug):
+    print("-----------0-----------")
+    print("-----------0-----------")
+    print("-----------0-----------")
+    
     print("Enter Line to edit")
+    print("-----------------------")
     lineToEdit = input()
+    print("-----------------------")
+        
     lineInt = int(lineToEdit)
     print("Enter new text")
+    print("-----------------------")
     newtext = input()
+    print("-----------------------")
     cipheredText = cipher(newtext,1)
-    textEditer(lineInt,cipheredText)
+    textEditer(lineInt,cipheredText,debug)
 
-def secretMenu():
+def secretMenu(debug):
     print("_______________________")
     print()
     print("     Secret Menu")
@@ -204,7 +215,7 @@ def secretMenu():
     print("-----------------------")
     match secretMenu:
         case "1":
-            edit()
+            edit(debug)
         case _:
             print("Invalid Option")
 
@@ -229,7 +240,7 @@ def optionMenu(exit,debug):
         case "0":
             exit = True
         case "000":
-            secretMenu()
+            secretMenu(debug)
         case _:
             print("Invalid Option try 0, 1, or 2")
     return exit
