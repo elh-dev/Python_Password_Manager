@@ -1,65 +1,68 @@
 # Global Veriables 
 # rot number
-rotValue = 3
+rot_value = 3
 
-def debugOption(x, debug):
+def debug_option(x, debug):
     if debug == 1:
         print(x)
 
 # Functions for list manipulations
 
 # String to List 
-def stringToList(s):
+def string_to_list(s):
     l = list(s)
     return l
 # List to String
-def listToString(l):
+def list_to_string(l):
     lts = "".join(l)
     return lts
 
-# Encode and decode using y as the string and t as the veraible to decide 1 = encrypt or else = decrypt 
-def cipher(y, t, debug):
-    try:
-        #ecrypt
-        if t == 1:
-            rotValuePresent = rotValue
-        #decrypt
-        else: 
-            rotValuePresent = -rotValue
-    except:
-        print("rotValue Error")
-    #Assigns characters to list 
-    listCipher = stringToList(y)
-    
+# Cipher Fucntions
+def cipher_character(list_cipher, i, direction, debug):
+    #transaltes charcater to number and Assigns to veriable 
+    number_value = ord(list_cipher[i])
     # Print veriable if debug is on
-    debugOption(listCipher, debug)
+    debug_option(number_value, debug)
+    #Assigns rot3 encoded value to veriable 
+    number_value_new = number_value + direction
+    # Print veriable if debug is on
+    debug_option(number_value_new, debug)
+    #Translates encoded number to character and Assigns to veriable 
+    string_value = chr(number_value_new)
+    list_cipher[i] = string_value
+    return list_cipher
 
-    #Retrives length of list assigned to x 
-    listLen = len(listCipher)
+# Encode and decode using y as the string and t as the veraible to decide 1 = encrypt or else = decrypt 
+def cipher_list(y, t, rot_value, debug):
+    #ecrypt
+
+    value = rot_value
+    if t == 1:
+        direction = value
+    #decrypt
+    else: 
+        direction = -value
+    
+    #Assigns characters to list 
+    list_cipher = string_to_list(y)
+    # Print veriable if debug is on
+    debug_option(list_cipher, debug)
+
     #Iterates over each letter in list and changes it using rot3 
     try:
-        for i in range(listLen):
-            #transaltes charcater to number and Assigns to veriable 
-            numberValue = ord(listCipher[i])
-            # Print veriable if debug is on
-            debugOption(numberValue, debug)
-            #Assigns rot3 encoded value to veriable 
-            numberValueNew = numberValue + rotValuePresent
-            # Print veriable if debug is on
-            debugOption(numberValueNew, debug)
-            #Translates encoded number to character and Assigns to veriable 
-            stringValue = chr(numberValueNew)
-            listCipher[i] = stringValue
+        for i in range(len(list_cipher)):
+            list_cipher = cipher_character(list_cipher, i, direction, debug)
         # Print veriable if debug is on
-        debugOption(listCipher, debug)
-        string = listToString(listCipher)
+        debug_option(list_cipher, debug)
+
+        string = list_to_string(list_cipher)
     except Exception as e:
         print(f"An Error occured: {e}")
     else:
         return string
-
+    
 # Read text to memory 
-def textToMemory(debug):
+def text_to_memory(debug):
     try:
         with open('text.txt', 'r') as file:
             try:
@@ -70,26 +73,25 @@ def textToMemory(debug):
         print(f"An Error occured: {e}")
 
     # Print veriable if debug is on
-    debugOption(line, debug)
+    debug_option(line, debug)
 
     return line
-
-
+    
 # Deciphers entire text document in to memory 
-def textDecipher(debug):
+def text_decipher(debug):
     try:
-        lines = textToMemory(debug)
+        lines = text_to_memory(debug)
     except:
         print("textToMemory Error")
     else:
         try:
-            listLen = len(lines)
-            for i in range(listLen):
-                lines[i] = cipher(lines[i], 0, debug)
+            list_len = len(lines)
+            for i in range(list_len):
+                lines[i] = cipher_list(lines[i], 0, rot_value, debug)
                 # Print veriable if debug is on
-                debugOption(lines[i], debug)
+                debug_option(lines[i], debug)
             # Print veriable if debug is on
-            debugOption(lines, debug)
+            debug_option(lines, debug)
         except Exception as e:
             print(f"An Error occured: {e}")
         else:
