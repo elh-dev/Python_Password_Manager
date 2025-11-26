@@ -5,10 +5,12 @@ from PManLib import PMan_util
 rot_value = 3
 debug = 0
 
+#Debuging
 def debug_option(x, debug):
     if debug == 1:
         print(x)
 
+#####-.txt Manipulation-#####
 # Adds string to text document
 def write_to_text(y, debug):
     try:
@@ -23,7 +25,6 @@ def write_to_text(y, debug):
 
     # Print veriable if debug is on
     debug_option("Text appended", debug)
-
 # Overwrites string to text document 
 def overwrite_string_to_text(y,debug):
     try:
@@ -37,7 +38,6 @@ def overwrite_string_to_text(y,debug):
         print(f"An Error occured: {e}")
     # Print veriable if debug is on
     debug_option("Text Overwriten", debug)
-
 # Overwrites lines to text document 
 def overwrite_lines_to_text(y,debug):
     try:
@@ -50,7 +50,6 @@ def overwrite_lines_to_text(y,debug):
         print(f"An Error occured: {e}")
     # Print veriable if debug is on
     debug_option("Text Overwriten", debug)
-
 # Erase text document content 
 def erase_text():
     try:
@@ -61,7 +60,6 @@ def erase_text():
                 print("pass error")
     except Exception as e: 
         print(f"An Error occured: {e}")  
-
 # Edit line of text document 
 def text_editer(x, text, debug):
     try:
@@ -76,6 +74,10 @@ def text_editer(x, text, debug):
     except Exception as e:
         print(f"An Error occured: {e}") 
 
+
+
+
+#####-Cipher-#####
 # ROT cipher from string 
 def string_to_rot(string, debug):
     try:
@@ -87,7 +89,39 @@ def string_to_rot(string, debug):
         debug_option(y, debug)
     except Exception as e:
         print(f"An Error occured: {e}")
-    
+
+
+
+
+#####-Input-#####
+def input_confirm(x):
+    confirm = 0
+    while confirm == 0:
+        print("-----------------------")
+        print(x)
+        print("-----------------------")
+        try:
+            credential = input()
+        except: 
+            print("input() error")
+        else:
+            print("-----------------------")
+            print("Enter 1 to Confirm")
+            print("Enter 0 to Retry")
+            print("-----------------------")
+            option = input()
+            print("-----------------------")
+            if option == "1":
+                confirm = 1
+                return credential
+def input_cipher(x, debug):
+    credential = input_confirm(x)
+    string_to_rot(credential, debug)
+
+
+
+
+#####-Menu-#####
 # Prints name and password with indicators
 def print_text(text):
     count = 1
@@ -110,32 +144,6 @@ def print_text(text):
                 count =0
                 print("---------")
             count += 1
-
-def input_confirm(x):
-    confirm = 0
-    while confirm == 0:
-        print("-----------------------")
-        print(x)
-        print("-----------------------")
-        try:
-            credential = input()
-        except: 
-            print("input error")
-        else:
-            print("-----------------------")
-            print("Enter 1 to Confirm")
-            print("Enter 0 to Retry")
-            print("-----------------------")
-            option = input()
-            print("-----------------------")
-            if option == "1":
-                confirm = 1
-                return credential
-
-def input_cipher(x, debug):
-    credential = input_confirm(x)
-    string_to_rot(credential, debug)
-
 # Edit specific line of text  
 def edit(debug):
     print("-----------------------")
@@ -151,14 +159,13 @@ def edit(debug):
         try:
             new_text = input_confirm("Enter new string")
         except:
-            print("input error")
+            print("input_confirm error")
             print("-----------------------")
         else: 
             ciphered_text = PMan_util.cipher_list(new_text, 1, 
                                                   rot_value, debug)
-            text_editer(line_int, ciphered_text, debug)
-        
-# Version 2 options
+            text_editer(line_int, ciphered_text, debug)  
+# Version 2 options 
 def secret_menu(debug):
     print("_______________________")
     print()
@@ -183,7 +190,36 @@ def secret_menu(debug):
                     erase_text()
             case _:
                 print("Invalid Option")
-
+# Store Credentials
+def store_cred_loop(debug):
+    try:
+        try:
+            input_cipher("Enter Username", debug)
+        except:
+            print("input_cipher error")
+        else:
+            try: 
+                input_cipher("Enter Password", debug)
+            except:
+                print("input_cipher error")
+            else:
+                try:
+                    input_cipher("Enter URL", debug)
+                except:
+                    print("input_cipher error")
+    except Exception as e:
+        print(f"An Error occured: {e}")
+# View Credentials
+def view_cred(debug):
+    print("-----------------------")
+    print("    Login Details")
+    print("-----------------------")
+    try:
+        text = PMan_util.text_decipher(debug)
+    except: 
+        print("text_decipher error")
+    else:
+        print_text(text)
 # Options 
 def option_menu(exit, debug):
     print("_______________________")
@@ -214,38 +250,6 @@ def option_menu(exit, debug):
             case _:
                 print("Invalid Option try 0, 1, or 2")
         return exit
-
-# View Credentials
-def view_cred(debug):
-    print("-----------------------")
-    print("    Login Details")
-    print("-----------------------")
-    try:
-        text = PMan_util.text_decipher(debug)
-    except: 
-        print("text_decipher error")
-    else:
-        print_text(text)
-
-# Store Credentials
-def store_cred_loop(debug):
-    try:
-        try:
-            input_cipher("Enter Username", debug)
-        except:
-            print("storeCred error")
-        else:
-            try: 
-                input_cipher("Enter Password", debug)
-            except:
-                print("storeCred error")
-            else:
-                try:
-                    input_cipher("Enter URL", debug)
-                except:
-                    print("storeCred error")
-    except Exception as e:
-        print(f"An Error occured: {e}")
 
 
 
